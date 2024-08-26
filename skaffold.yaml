@@ -1,0 +1,25 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+manifest:
+  rawYaml:
+    - ./infra/k8s/*
+  build:
+    local:
+      push: false
+  artifacts:
+    - image: aythejuggernaut/ticketing-app/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/**.ts"
+            dest: .
+    - image: aythejuggernaut/ticketing-app/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/**.ts"
+            dest: .
